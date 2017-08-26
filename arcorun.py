@@ -47,15 +47,18 @@ def detect_language(msg, code):
 
 def create_file(language, extension, code):
     """create a file with the code provided, so it can be run or compiled later."""
-    while True:
-        try:
-            file_path = "%s/%s/%s%s" % (os.path.dirname(os.path.realpath(__file__)), language, datetime.now().strftime("%d-%m-%Y_%H:%M:%S.%f"),  extension)
-            with open(file_path, "a") as file: # Open the file to write on
-                for line in code:
-                    file.write("%s\n" % line)
-                break
-        except FileNotFoundError: # If there's no folder where the file could be opened
-            os.mkdir(os.path.dirname(os.path.realpath(__file__)) + "/" + language) # Create it and try again
+
+    if not os.path.isdir(os.path.dirname(os.path.realpath(__file__)) + "/code"): # Generates /code folder if it doesn't exist
+        os.mkdir(os.path.dirname(os.path.realpath(__file__)) + "/code")
+
+    if not os.path.isdir(os.path.dirname(os.path.realpath(__file__)) + "/code/" + language): # Generates /code/language folder if it doesn't exist
+        os.mkdir(os.path.dirname(os.path.realpath(__file__)) + "/code/" + language)
+            
+    file_path = "%s/code/%s/%s%s" % (os.path.dirname(os.path.realpath(__file__)), language, datetime.now().strftime("%d-%m-%Y_%H:%M:%S.%f"),  extension)
+    print(file_path)
+    with open(file_path, "a") as file: # Open the file to write on
+        for line in code:
+            file.write("%s\n" % line)
     return file_path
     
 
@@ -64,11 +67,13 @@ def create_file(language, extension, code):
 
 def run_compiler(file_path, language, compiler_exec, flags = ""):
     """runs the compiler and generates an executable."""
-    exec_folder = "%s/%s/exec" % (os.path.dirname(os.path.realpath(__file__)), language)
+    exec_folder = "%s/code/%s/exec" % (os.path.dirname(os.path.realpath(__file__)), language)
     if not os.path.exists(exec_folder):
         os.mkdir(exec_folder)
 
-    run_process = subprocess.Popen([compiler_exec, flags, exec_folder + "/executable", file_path], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    os.cp
+
+    run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-fw", "/bot/code", "-m", "512M", "-T", "65", compiler_exec, flags, exec_folder + "/executable", file_path], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     try:
         stdout, stderr = run_process.communicate(timeout=60)
         if stdout:
@@ -88,9 +93,9 @@ def execute_code(file_path, run_command):
     
     timeout_flag = False
     if run_command: # For non-compiled languages
-        run_process = subprocess.Popen([run_command, file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-f", "/bot/code", "-m", "512M", "-T", "10", run_command, file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     else:
-        run_process = subprocess.Popen(file_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-f", "/bot/code", "-m", "512M", "-T", "10", file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     try:
         stdout, stderr = run_process.communicate(timeout=5)
     except subprocess.TimeoutExpired:

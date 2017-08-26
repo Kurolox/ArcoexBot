@@ -1,0 +1,12 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!arcoex.py
+!arcorun.py
+!languages
+# etc...
+
+# ...even if they are in subdirectories
+!*/

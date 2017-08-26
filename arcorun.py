@@ -1,0 +1,169 @@
+import discord
+import os
+import json
+import subprocess
+from datetime import datetime
+
+greetings = "Arcoex stands for **ar**bitrary **co**de **ex**ecution, and that's what this bot does! There are two ways to use me (you can use both at the same time if you want to):\n\n**1.** Mention me among with the language of the code you want to run, and then add the code warped in between \`\`\`, making a code block. (This method overrides the next one if both are specified at the same time) Here's an example:\n\n<@350327901788569612> bash ```\n echo(\"I'm using the first method!\")```\n**2.** Mention me among your code warped in between \`\`\`, and specify the language of your code right after the first set of \`\`\` (This method will add syntax markdown to your code). Here's an example:\n\n<@350327901788569612> ```bash\n echo(\"I'm using the second method!\")```\nSo far, the supported languages are bash, rust, cpp, javascript, guile and python. Message Kurolox if you want to add more!"
+
+
+def look_for_code(msg):
+    """Checks the discord message for a code block. If there's no code, it returns an empty string."""
+    
+    try:
+        code = msg.split("```")[1] # Looks for anything wrapped in a ``` block
+        return code.split("\n")
+    except IndexError: # There's no ``` in the message content
+        return ""
+
+
+def detect_language(msg, code):
+    """Checks code language and gives the following functions information regarding how to run the code."""
+    
+    lang_dict = {}
+    for language in os.listdir(os.path.dirname(os.path.realpath(__file__)) + "/languages"):
+        with open(os.path.dirname(os.path.realpath(__file__)) + "/languages/" + language) as langjson:
+            lang_dict[language[:-5]] = json.load(langjson)
+    
+    # Check markdown
+    for language in lang_dict.keys():
+        if code[0] in lang_dict[language]["known_naming"]:
+            code[0] = "" # Erase markdown language
+            markdown_language = language
+
+    # Check argument
+    try:
+        argument_provided = msg.split("```")[0].split(" ")[1]
+        for language in lang_dict.keys():
+            if argument_provided in lang_dict[language]["known_naming"]:
+                return lang_dict[argument_provided], code
+    except IndexError:
+       pass
+    
+    try:
+        return lang_dict[markdown_language], code
+    except UnboundLocalError: # There's no valid markdown
+        return "", code
+
+def create_file(language, extension, code):
+    """create a file with the code provided, so it can be run or compiled later."""
+    while True:
+        try:
+            file_path = "%s/%s/%s%s" % (os.path.dirname(os.path.realpath(__file__)), language, datetime.now().strftime("%d-%m-%Y_%H:%M:%S.%f"),  extension)
+            with open(file_path, "a") as file: # Open the file to write on
+                for line in code:
+                    file.write("%s\n" % line)
+                break
+        except FileNotFoundError: # If there's no folder where the file could be opened
+            os.mkdir(os.path.dirname(os.path.realpath(__file__)) + "/" + language) # Create it and try again
+    return file_path
+    
+
+
+
+
+def run_compiler(file_path, language, compiler_exec, flags = ""):
+    """runs the compiler and generates an executable."""
+    exec_folder = "%s/%s/exec" % (os.path.dirname(os.path.realpath(__file__)), language)
+    if not os.path.exists(exec_folder):
+        os.mkdir(exec_folder)
+
+    run_process = subprocess.Popen([compiler_exec, flags, exec_folder + "/executable", file_path], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    try:
+        stdout, stderr = run_process.communicate(timeout=60)
+        if stdout:
+            return "", stdout.decode("utf-8")
+        elif stderr:
+            return "", stderr.decode("utf-8")
+        else:
+            return exec_folder + "/executable", ""
+    except subprocess.TimeoutExpired:
+        run_process.kill()
+        return 0
+
+
+
+def execute_code(file_path, run_command):
+    """Creates a subprocess that runs the file, then grabs the stdout and stderr of said process."""
+    
+    timeout_flag = False
+    if run_command: # For non-compiled languages
+        run_process = subprocess.Popen([run_command, file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    else:
+        run_process = subprocess.Popen(file_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    try:
+        stdout, stderr = run_process.communicate(timeout=5)
+    except subprocess.TimeoutExpired:
+        stdout, stderr, timeout_flag = timeout(run_process)
+
+    return stdout.decode("utf-8"), stderr.decode("utf-8"), timeout_flag
+
+
+def timeout(process):
+    """If the process timed out, returns the last 5 lines of output and kills the process"""
+    line_number = 0
+    stderr = b""
+    stdout = b""
+    while line_number < 5:
+        stdout += process.stdout.readline()
+        line_number += 1
+    process.kill()
+    timeout_flag = True
+    return stdout, stderr, timeout_flag
+
+
+async def bot_reply(msg, client, signal, code_output="", compiler_output="", language=""):
+    """Makes the bot reply depending on the signal."""
+    
+    if signal == 0: # There was no code detected on the message
+        await client.send_message(msg.channel, "I'm sorry, but I'm not seeing any code to run.")
+    elif signal == 1: # There was only a mention of the bot
+        await client.send_message(msg.channel, greetings)
+    elif signal == 2: # detect_language() couldn't detect the language
+        await client.send_message(msg.channel, "I'm sorry, but you didn't specify the language of the code or it isn't supported yet.")
+    elif signal == 3: # The compiler ran into issues
+        await client.send_message(msg.channel, "I've encountered the following error when compiling your %s code. \n```\n%s```" % (language, compiler_output))
+    elif signal == 4: # The process timeouted
+        await client.send_message(msg.channel, "I'm sorry, but your request took too long. Here are the last 5 lines from the output.\n```\n%s```" % code_output)
+    elif signal == 5: # There were errors when running the code
+        await client.send_message(msg.channel, "I've encountered the following error when running your %s code. \n```\n%s```" % (language, code_output))
+    elif signal == 6: # Everything went well
+        await client.send_message(msg.channel, "Here's the output of your %s code. \n```\n%s```" % (language, code_output))
+
+
+async def code(msg, client):
+    """Grab the code block from a message, run it and return the output."""
+    
+    code = look_for_code(msg.content)
+    if not code:
+        if msg.content != ("<@%s>" % client.user.id): # if the message content is not just a mention
+            await bot_reply(msg, client, 0)
+        else: # if the message content is only a mention to the bot
+            await bot_reply(msg, client, 1)
+    else:
+        lang_json, code = detect_language(msg.content, code)
+        if not lang_json: # The language wasn't detected
+            await bot_reply(msg, client, 2)
+        else:
+            file_path = create_file(lang_json["language"], lang_json["file_extension"], code)
+            if lang_json["compiled"]: # Code needs to be compiled
+                exec_path, compiler_output = run_compiler(file_path, lang_json["language"], lang_json["compiler_exec"], flags= lang_json["compiler_flags"])
+                if compiler_output: # Errors when compiling
+                    await bot_reply(msg, client, 3, compiler_output=compiler_output, language=lang_json["language"])
+                else:
+                    output, error, timeout_flag = execute_code(exec_path, "")
+                    if timeout_flag: # The process did timeout
+                        await bot_reply(msg, client, 4, code_output=output)
+                    elif error: # There's something on stderr
+                        await bot_reply(msg, client, 5, code_output=error, language=lang_json["language"])
+                    else: # Everything went fine
+                        await bot_reply(msg, client, 6, code_output=output, language=lang_json["language"])
+
+            else: # Code can be run directly
+                output, error, timeout_flag = execute_code(file_path, lang_json["run_command"])
+                if timeout_flag: # The process did timeout
+                    await bot_reply(msg, client, 4, code_output=output)
+                elif error: # There's something on stderr
+                    await bot_reply(msg, client, 5, code_output=error, language=lang_json["language"])
+                else: # Everything went fine
+                    await bot_reply(msg, client, 6, code_output=output, language=lang_json["language"])

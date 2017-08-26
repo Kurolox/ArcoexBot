@@ -1,0 +1,13 @@
+{
+    "language": "python",
+    "compiled": false,
+    "compiler_exec": "",
+    "run_command": "python",
+    "known_naming": [
+        "python",
+        "py",
+        "python2",
+        "python3"
+    ],
+    "file_extension": ".py"
+}

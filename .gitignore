@@ -3,9 +3,10 @@
 
 # But not these files...
 !.gitignore
+!README
 !arcoex.py
 !arcorun.py
-!languages
+!languages/*
 # etc...
 
 # ...even if they are in subdirectories

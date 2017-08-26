@@ -1,0 +1,11 @@
+{
+    "language": "bash",
+    "compiled": false,
+    "compiler_exec": "",
+    "run_command": "bash",
+    "known_naming": [
+        "bash",
+        "sh"
+    ],
+    "file_extension": ".sh"
+}

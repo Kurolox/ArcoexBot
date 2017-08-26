@@ -1,0 +1,11 @@
+{
+	"language": "rust",
+    "compiled": true,
+	"compiler_exec": "rustc",
+    "compiler_flags": "-o",
+	"known_naming": [
+		"rust",
+		"rs"
+	],
+	"file_extension": ".rs"
+}

@@ -45,7 +45,7 @@ def detect_language(msg, code):
     except UnboundLocalError: # There's no valid markdown
         return "", code
 
-def create_file(language, extension, code):
+def create_file(language, extension, code, compiled):
     """create a file with the code provided, so it can be run or compiled later."""
 
     if not os.path.isdir(os.path.dirname(os.path.realpath(__file__)) + "/code"): # Generates /code folder if it doesn't exist
@@ -55,11 +55,27 @@ def create_file(language, extension, code):
         os.mkdir(os.path.dirname(os.path.realpath(__file__)) + "/code/" + language)
             
     file_path = "%s/code/%s/%s%s" % (os.path.dirname(os.path.realpath(__file__)), language, datetime.now().strftime("%d-%m-%Y_%H:%M:%S.%f"),  extension)
-    print(file_path)
     with open(file_path, "a") as file: # Open the file to write on
         for line in code:
             file.write("%s\n" % line)
-    return file_path
+
+    if compiled: # Creates a special character free copy for compiling if it's needed
+        file_compiled = "%s/code/%s/exec" % (os.path.dirname(os.path.realpath(__file__)), language)
+        if not os.path.exists(file_compiled):
+            os.mkdir(file_compiled)
+
+        try:
+            os.remove(file_compiled + "/plaincode")
+        except FileNotFoundError:
+            pass
+        with open(file_compiled + "/plaincode", "a") as file: # Open the file to write on
+            for line in code:
+                file.write("%s\n" % line)
+    else:
+        file_compiled = ""
+
+
+    return file_path, file_compiled
     
 
 
@@ -67,13 +83,9 @@ def create_file(language, extension, code):
 
 def run_compiler(file_path, language, compiler_exec, flags = ""):
     """runs the compiler and generates an executable."""
-    exec_folder = "%s/code/%s/exec" % (os.path.dirname(os.path.realpath(__file__)), language)
-    if not os.path.exists(exec_folder):
-        os.mkdir(exec_folder)
 
-    os.cp
 
-    run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-fw", "/bot/code", "-m", "512M", "-T", "65", compiler_exec, flags, exec_folder + "/executable", file_path], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-fw", "/bot/code", "-m", "512M", "-T", "65", compiler_exec, flags, file_path + "/executable", file_path + "/plaincode"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     try:
         stdout, stderr = run_process.communicate(timeout=60)
         if stdout:
@@ -81,7 +93,7 @@ def run_compiler(file_path, language, compiler_exec, flags = ""):
         elif stderr:
             return "", stderr.decode("utf-8")
         else:
-            return exec_folder + "/executable", ""
+            return file_path + "/executable", ""
     except subprocess.TimeoutExpired:
         run_process.kill()
         return 0
@@ -150,9 +162,9 @@ async def code(msg, client):
         if not lang_json: # The language wasn't detected
             await bot_reply(msg, client, 2)
         else:
-            file_path = create_file(lang_json["language"], lang_json["file_extension"], code)
+            file_path, compiled_copy = create_file(lang_json["language"], lang_json["file_extension"], code, lang_json["compiled"])
             if lang_json["compiled"]: # Code needs to be compiled
-                exec_path, compiler_output = run_compiler(file_path, lang_json["language"], lang_json["compiler_exec"], flags= lang_json["compiler_flags"])
+                exec_path, compiler_output = run_compiler(compiled_copy, lang_json["language"], lang_json["compiler_exec"], flags= lang_json["compiler_flags"])
                 if compiler_output: # Errors when compiling
                     await bot_reply(msg, client, 3, compiler_output=compiler_output, language=lang_json["language"])
                 else:

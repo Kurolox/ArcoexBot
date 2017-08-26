@@ -1,0 +1,1 @@
+bot_token = "INSERT DISCORD BOT TOKEN HERE"

@@ -1,0 +1,8 @@
+{
+    "language": "guile",
+    "compiled": false,
+    "compiler_exec": "",
+    "run_command": "guile",
+    "known_naming": "guile",
+    "file_extension": ".scm"
+}

@@ -1,0 +1,11 @@
+{
+    "language": "javascript",
+    "compiled": false,
+    "compiler_exec": "",
+    "run_command": "nodejs",
+    "known_naming": [
+        "javascript",
+        "js"
+    ],
+    "file_extension": ".js"
+}

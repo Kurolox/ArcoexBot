@@ -3,6 +3,7 @@
     "compiled": true,
     "compiler_exec": "g++",
     "compiler_flags": [
+	"-fno-diagnostics-color",
         "-o"
     ],
     "exec": "",

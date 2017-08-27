@@ -3,6 +3,8 @@
     "compiled": true,
     "compiler_exec": "rustc",
     "compiler_flags": [
+	"--color",
+	"never",
         "-o"
     ],
     "exec": "",

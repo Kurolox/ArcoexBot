@@ -27,7 +27,7 @@ def detect_language(msg, code):
     
     # Check markdown
     for language in lang_dict.keys():
-        if code[0] in lang_dict[language]["known_naming"]:
+        if code[0].lower() in lang_dict[language]["known_naming"]:
             code[0] = "" # Erase markdown language
             markdown_language = language
 
@@ -35,7 +35,7 @@ def detect_language(msg, code):
     try:
         argument_provided = msg.split("```")[0].split(" ")[1]
         for language in lang_dict.keys():
-            if argument_provided in lang_dict[language]["known_naming"]:
+            if argument_provided.lower() in lang_dict[language]["known_naming"]:
                 return lang_dict[argument_provided], code
     except IndexError:
        pass

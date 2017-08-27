@@ -104,7 +104,7 @@ def execute_code(file_path, run_command):
     """Creates a subprocess that runs the file, then grabs the stdout and stderr of said process."""
 
     timeout_flag = False
-    with open(os.path.dirname(os.path.realpath(__file__)) + "/stdout.txt","wb") as out, open(os.path.dirname(os.path.realpath(__file__)) + "/stderr.txt","wb") as err:
+    with open(os.path.dirname(os.path.realpath(__file__)) + "/stdout.txt","wb", 0) as out, open(os.path.dirname(os.path.realpath(__file__)) + "/stderr.txt","wb", 0) as err:
         if run_command: # For non-compiled languages
             try:
                 command = ["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-f", "/bot/code", "-m", "512M", "-T", "10", run_command, file_path]
@@ -121,8 +121,8 @@ def execute_code(file_path, run_command):
                 # TODO: Fix this
                 return 0
 
-    with open(os.path.dirname(os.path.realpath(__file__)) + "/stdout.txt") as out, open(os.path.dirname(os.path.realpath(__file__)) + "/stderr.txt") as err:
-        return out, err, timeout_flag
+    with open(os.path.dirname(os.path.realpath(__file__)) + "/stdout.txt", "rb", 0) as out, open(os.path.dirname(os.path.realpath(__file__)) + "/stderr.txt", "rb", 0) as err:
+        return out.read().decode("utf-8"), err.read().decode("utf-8"), timeout_flag
 
     return stdout.decode("utf-8"), stderr.decode("utf-8"), timeout_flag
 

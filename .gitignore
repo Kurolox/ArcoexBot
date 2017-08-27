@@ -1,6 +1,6 @@
 # Ignore everything
 *
-
+auth.py
 # But not these files...
 !.gitignore
 !README

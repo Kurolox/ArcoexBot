@@ -102,16 +102,27 @@ def run_compiler(file_path, language, compiler_exec, extension, flags = ""):
 
 def execute_code(file_path, run_command):
     """Creates a subprocess that runs the file, then grabs the stdout and stderr of said process."""
-    
+
     timeout_flag = False
-    if run_command: # For non-compiled languages
-        run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-f", "/bot/code", "-m", "512M", "-T", "10", run_command, file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    else:
-        run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-f", "/bot/code", "-m", "512M", "-T", "10", file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    try:
-        stdout, stderr = run_process.communicate(timeout=5)
-    except subprocess.TimeoutExpired:
-        stdout, stderr, timeout_flag = timeout(run_process)
+    with open(os.path.dirname(os.path.realpath(__file__)) + "/stdout.txt","wb") as out, open(os.path.dirname(os.path.realpath(__file__)) + "/stderr.txt","wb") as err:
+        if run_command: # For non-compiled languages
+            try:
+                command = ["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-f", "/bot/code", "-m", "512M", "-T", "10", run_command, file_path]
+                run_process = subprocess.run(command, stdout=out, stderr=err, timeout=5)
+            except subprocess.TimeoutExpired:
+                # TODO: Fix this
+                return 0
+                
+        else:
+            try:
+                command = ["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-f", "/bot/code", "-m", "512M", "-T", "10", file_path]
+                run_process = subprocess.run(command, stdout=out, stderr=err, timeout=5)
+            except subprocess.TimeoutExpired:
+                # TODO: Fix this
+                return 0
+
+    with open(os.path.dirname(os.path.realpath(__file__)) + "/stdout.txt") as out, open(os.path.dirname(os.path.realpath(__file__)) + "/stderr.txt") as err:
+        return out, err, timeout_flag
 
     return stdout.decode("utf-8"), stderr.decode("utf-8"), timeout_flag
 

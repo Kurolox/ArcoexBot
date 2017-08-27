@@ -65,7 +65,7 @@ def create_file(language, extension, code, compiled):
             os.mkdir(file_compiled)
 
         try:
-            os.remove(file_compiled + "/plaincode")
+            os.remove(file_compiled + "/plaincode" + extension)
         except FileNotFoundError:
             pass
         with open(file_compiled + "/plaincode" + extension, "a") as file: # Open the file to write on

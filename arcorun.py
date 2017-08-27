@@ -168,7 +168,7 @@ async def code(msg, client):
                 if compiler_output: # Errors when compiling
                     await bot_reply(msg, client, 3, compiler_output=compiler_output, language=lang_json["language"])
                 else:
-                    output, error, timeout_flag = execute_code(exec_path, "")
+                    output, error, timeout_flag = execute_code(exec_path, lang_json["exec"], lang_json["exec_flags"])
                     if timeout_flag: # The process did timeout
                         await bot_reply(msg, client, 4, code_output=output)
                     elif error: # There's something on stderr

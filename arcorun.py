@@ -38,7 +38,7 @@ def detect_language(msg, code):
             if argument_provided.lower() in lang_dict[language]["known_naming"]:
                 return lang_dict[language], code
     except IndexError:
-       pass
+        pass
     
     try:
         return lang_dict[markdown_language], code

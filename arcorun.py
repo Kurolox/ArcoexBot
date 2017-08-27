@@ -68,7 +68,7 @@ def create_file(language, extension, code, compiled):
             os.remove(file_compiled + "/plaincode")
         except FileNotFoundError:
             pass
-        with open(file_compiled + "/plaincode", "a") as file: # Open the file to write on
+        with open(file_compiled + "/plaincode" + extension, "a") as file: # Open the file to write on
             for line in code:
                 file.write("%s\n" % line)
     else:
@@ -81,11 +81,11 @@ def create_file(language, extension, code, compiled):
 
 
 
-def run_compiler(file_path, language, compiler_exec, flags = ""):
+def run_compiler(file_path, language, compiler_exec, extension, flags = ""):
     """runs the compiler and generates an executable."""
 
 
-    run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-fw", "/bot/code", "-m", "512M", "-T", "65", compiler_exec, flags, file_path + "/executable", file_path + "/plaincode"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-fw", "/bot/code", "-m", "512M", "-T", "65", compiler_exec, flags, file_path + "/executable", file_path + "/plaincode" + extension], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     try:
         stdout, stderr = run_process.communicate(timeout=60)
         if stdout:
@@ -164,7 +164,7 @@ async def code(msg, client):
         else:
             file_path, compiled_copy = create_file(lang_json["language"], lang_json["file_extension"], code, lang_json["compiled"])
             if lang_json["compiled"]: # Code needs to be compiled
-                exec_path, compiler_output = run_compiler(compiled_copy, lang_json["language"], lang_json["compiler_exec"], flags= lang_json["compiler_flags"])
+                exec_path, compiler_output = run_compiler(compiled_copy, lang_json["language"], lang_json["compiler_exec"],lang_json["file_extension"], flags= lang_json["compiler_flags"])
                 if compiler_output: # Errors when compiling
                     await bot_reply(msg, client, 3, compiler_output=compiler_output, language=lang_json["language"])
                 else:

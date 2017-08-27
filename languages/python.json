@@ -2,12 +2,16 @@
     "language": "python",
     "compiled": false,
     "compiler_exec": "",
-    "run_command": "python",
+    "compiler_flags": [
+    ],
+    "exec": "python3",
+    "exec_flags": [
+    ],
     "known_naming": [
         "python",
         "py",
-        "python2",
-        "python3"
+        "python3",
+        "py3"
     ],
     "file_extension": ".py"
 }

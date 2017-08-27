@@ -1,10 +1,15 @@
 {
-	"language": "c",
+    "language": "c",
     "compiled": true,
-	"compiler_exec": "gcc",
-    "compiler_flags": "-o",
-	"known_naming": [
-		"c"
-	],
-	"file_extension": ".c"
+    "compiler_exec": "gcc",
+    "compiler_flags": [
+        "-o"
+    ],
+    "exec": "",
+    "exec_flags": [
+    ],
+    "known_naming": [
+        "c"
+    ],
+    "file_extension": ".c"
 }

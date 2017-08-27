@@ -1,10 +1,14 @@
 {
-	"language": "guile",
-	"compiled": false,
-        "compiler_exec": "",
-	"run_command": "guile",
-	"known_naming": [
-		"guile"
-	],
-	"file_extension": ".scm"
+    "language": "guile",
+    "compiled": false,
+    "compiler_exec": "",
+    "compiler_flags": [
+    ],
+    "exec": "guile",
+    "exec_flags": [
+    ],
+    "known_naming": [
+        "guile"
+    ],
+    "file_extension": ".scm"
 }

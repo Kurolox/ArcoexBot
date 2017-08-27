@@ -1,11 +1,16 @@
 {
-	"language": "cpp",
+    "language": "cpp",
     "compiled": true,
-	"compiler_exec": "g++",
-    "compiler_flags": "-o",
-	"known_naming": [
-		"cpp",
-		"c++"
-	],
-	"file_extension": ".cpp"
+    "compiler_exec": "g++",
+    "compiler_flags": [
+        "-o"
+    ],
+    "exec": "",
+    "exec_flags": [
+    ],
+    "known_naming": [
+        "cpp",
+        "c++"
+    ],
+    "file_extension": ".cpp"
 }

@@ -2,7 +2,11 @@
     "language": "bash",
     "compiled": false,
     "compiler_exec": "",
-    "run_command": "bash",
+    "compiler_flags": [
+    ],
+    "exec": "bash",
+    "exec_flags": [
+    ],
     "known_naming": [
         "bash",
         "sh"

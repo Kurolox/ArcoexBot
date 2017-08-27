@@ -85,7 +85,7 @@ def run_compiler(file_path, language, compiler_exec, extension, flags = ""):
     """runs the compiler and generates an executable."""
 
 
-    run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-fw", "/bot/code", "-m", "512M", "-T", "65", compiler_exec, flags, file_path + "/executable", file_path + "/plaincode" + extension], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-fw", "/bot/code", "-m", "512M", "-T", "65", compiler_exec] + flags + [file_path + "/executable", file_path + "/plaincode" + extension], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     try:
         stdout, stderr = run_process.communicate(timeout=60)
         if stdout:
@@ -100,16 +100,16 @@ def run_compiler(file_path, language, compiler_exec, extension, flags = ""):
 
 
 
-def execute_code(file_path, run_command):
+def execute_code(file_path, run_command, flags):
     """Creates a subprocess that runs the file, then grabs the stdout and stderr of said process."""
     
     timeout_flag = False
     if run_command: # For non-compiled languages
-        run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-f", "/bot/code", "-m", "512M", "-T", "10", run_command, file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-f", "/bot/code", "-m", "512M", "-T", "10", run_command] + flags + [file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     else:
         run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-f", "/bot/code", "-m", "512M", "-T", "10", file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     try:
-        stdout, stderr = run_process.communicate(timeout=5)
+        stdout, stderr = run_process.communicate(timeout=8)
     except subprocess.TimeoutExpired:
         stdout, stderr, timeout_flag = timeout(run_process)
 
@@ -177,7 +177,7 @@ async def code(msg, client):
                         await bot_reply(msg, client, 6, code_output=output, language=lang_json["language"])
 
             else: # Code can be run directly
-                output, error, timeout_flag = execute_code(file_path, lang_json["run_command"])
+                output, error, timeout_flag = execute_code(file_path, lang_json["exec"], lang_json["exec_flags"])
                 if timeout_flag: # The process did timeout
                     await bot_reply(msg, client, 4, code_output=output)
                 elif error: # There's something on stderr

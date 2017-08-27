@@ -1,11 +1,15 @@
 {
-	"language": "racket",
-	"compiled": false,
-        "compiler_exec": "",
-	"run_command": "racket",
-	"known_naming": [
-		"racket",
-		"rkt"
-	],
-	"file_extension": ".rkt"
+    "language": "racket",
+    "compiled": false,
+    "compiler_exec": "",
+    "compiler_flags": [
+    ],
+    "exec": "racket",
+    "exec_flags": [
+    ],
+    "known_naming": [
+        "racket",
+        "rkt"
+    ],
+    "file_extension": ".rkt"
 }

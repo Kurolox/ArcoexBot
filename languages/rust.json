@@ -1,11 +1,16 @@
 {
-	"language": "rust",
+    "language": "rust",
     "compiled": true,
-	"compiler_exec": "rustc",
-    "compiler_flags": "-o",
-	"known_naming": [
-		"rust",
-		"rs"
-	],
-	"file_extension": ".rs"
+    "compiler_exec": "rustc",
+    "compiler_flags": [
+        "-o"
+    ],
+    "exec": "",
+    "exec_flags": [
+    ],
+    "known_naming": [
+        "rust",
+        "rs"
+    ],
+    "file_extension": ".rs"
 }

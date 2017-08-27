@@ -36,7 +36,7 @@ def detect_language(msg, code):
         argument_provided = msg.split("```")[0].split(" ")[1]
         for language in lang_dict.keys():
             if argument_provided.lower() in lang_dict[language]["known_naming"]:
-                return lang_dict[argument_provided], code
+                return lang_dict[language], code
     except IndexError:
        pass
     

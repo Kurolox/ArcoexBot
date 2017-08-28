@@ -2,6 +2,7 @@ import discord
 import os
 import json
 import subprocess
+import hastebin
 from datetime import datetime
 
 greetings = "Arcoex stands for **ar**bitrary **co**de **ex**ecution, and that's what this bot does! There are two ways to use me (you can use both at the same time if you want to):\n\n**1.** Mention me among with the language of the code you want to run, and then add the code warped in between \`\`\`, making a code block. (This method overrides the next one if both are specified at the same time) Here's an example:\n\n<@350327901788569612> bash ```\n echo(\"I'm using the first method!\")```\n**2.** Mention me among your code warped in between \`\`\`, and specify the language of your code right after the first set of \`\`\` (This method will add syntax markdown to your code). Here's an example:\n\n<@350327901788569612> ```bash\n echo(\"I'm using the second method!\")```\nSo far, the supported languages are bash, rust, cpp, javascript, guile and python. Message Kurolox if you want to add more!"
@@ -145,8 +146,10 @@ async def bot_reply(msg, client, signal, code_output="", compiler_output="", lan
     elif signal == 5: # There were errors when running the code
         await client.send_message(msg.channel, "I've encountered the following error when running your %s code. \n```\n%s```" % (language, code_output))
     elif signal == 6: # Everything went well
-        await client.send_message(msg.channel, "Here's the output of your %s code. \n```\n%s```" % (language, code_output))
-
+        try:
+            await client.send_message(msg.channel, "Here's the output of your %s code. \n```\n%s```" % (language, code_output))
+        except discord.errors.HTTPException: # Unless the message was +2000 characters
+            await client.send_message(msg.channel, "I'm sorry, but the output is too long for Discord. You can check the output of your %s code here. %s" % (language, hastebin.post(code_output)))
 
 async def code(msg, client):
     """Grab the code block from a message, run it and return the output."""

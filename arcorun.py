@@ -146,7 +146,7 @@ async def send_instructions(msg, client):
     "\n\nMessage Kurolox if you want to add more, or check out the Github page if you want to contribute: https://github.com/Kurolox/ArcoexBot")
 
     await client.send_message(msg.author, instructions)
-    await client_send_message(msg.channel, "I've sent you the bot instructions via PM.")
+    await client.send_message(msg.channel, "I've sent you the bot instructions via PM.")
 
 
 async def bot_reply(msg, client, signal, code_output="", compiler_output="", language=""):

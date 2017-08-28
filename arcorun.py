@@ -5,9 +5,6 @@ import subprocess
 import hastebin
 from datetime import datetime
 
-greetings = "Arcoex stands for **ar**bitrary **co**de **ex**ecution, and that's what this bot does! There are two ways to use me (you can use both at the same time if you want to):\n\n**1.** Mention me among with the language of the code you want to run, and then add the code warped in between \`\`\`, making a code block. (This method overrides the next one if both are specified at the same time) Here's an example:\n\n<@350327901788569612> bash ```\n echo(\"I'm using the first method!\")```\n**2.** Mention me among your code warped in between \`\`\`, and specify the language of your code right after the first set of \`\`\` (This method will add syntax markdown to your code). Here's an example:\n\n<@350327901788569612> ```bash\n echo(\"I'm using the second method!\")```\nSo far, the supported languages are bash, rust, cpp, javascript, guile and python. Message Kurolox if you want to add more!"
-
-
 def look_for_code(msg):
     """Checks the discord message for a code block. If there's no code, it returns an empty string."""
     
@@ -130,6 +127,27 @@ def timeout(process):
     timeout_flag = True
     return stdout, stderr, timeout_flag
 
+async def send_instructions(msg, client):
+    """Sends the user who mentioned the bot all the instructions of how to use it."""
+
+    supported_languages_raw = os.listdir(os.path.dirname(os.path.realpath(__file__)) + "/languages")
+    supported_languages = []
+    for language_raw in supported_languages_raw:
+        if language_raw == "README.md":
+            pass
+        else:
+            supported_languages.append(language_raw[:-5])
+
+    instructions = ("Arcoex stands for **ar**bitrary **co**de **ex**ecution, and that's what this bot does! There are two ways to use me (you can use both at the same time if you want to):"
+    "\n\n**1.** Mention me among with the language of the code you want to run, and then add the code warped in between \`\`\`, making a code block. (This method overrides the next one if"
+    "both are specified at the same time) Here's an example:\n\n<@" + client.user.id + "> bash ```\n echo(\"I'm using the first method!\")```\n**2.** Mention me among your code warped in between"
+    "\`\`\`, and specify the language of your code right after the first set of \`\`\` (This method will add syntax markdown to your code). Here's an example:\n\n<@350327901788569612> ```bash"
+    "\n echo(\"I'm using the second method!\")```\nSo far, the supported languages are " + ", ".join(supported_languages[:-1]) + " and " + supported_languages[-1] + "."
+    "\n\nMessage Kurolox if you want to add more, or check out the Github page if you want to contribute: https://github.com/Kurolox/ArcoexBot")
+
+    await client.send_message(msg.author, instructions)
+    await client_send_message(msg.channel, "I've sent you the bot instructions via PM.")
+
 
 async def bot_reply(msg, client, signal, code_output="", compiler_output="", language=""):
     """Makes the bot reply depending on the signal."""
@@ -137,7 +155,7 @@ async def bot_reply(msg, client, signal, code_output="", compiler_output="", lan
     if signal == 0: # There was no code detected on the message
         await client.send_message(msg.channel, "I'm sorry, but I'm not seeing any code to run.")
     elif signal == 1: # There was only a mention of the bot
-        await client.send_message(msg.channel, greetings)
+        await send_instructions(msg, client)
     elif signal == 2: # detect_language() couldn't detect the language
         await client.send_message(msg.channel, "I'm sorry, but you didn't specify the language of the code or it isn't supported yet.")
     elif signal == 3: # The compiler ran into issues

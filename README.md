@@ -62,6 +62,35 @@ sed -i '6s/.*/LINUX=linux-4.12.9/' Makefile
 make all && make install
 ```
 
+If you have an issue when building UMLBox that looks like this:
+```
+gcc -g -O3 -c tcp4.c
+tcp4.c: In function 'newTCP4C':
+tcp4.c:182:21: error: storage size of 'hints' isn't known
+     struct addrinfo hints, *ai;
+                     ^~~~~
+tcp4.c:199:12: warning: implicit declaration of function 'getaddrinfo' [-Wimplicit-function-declaration]
+     tmpi = getaddrinfo(hosts, ports, &hints, &ai);
+            ^~~~~~~~~~~
+tcp4.c:202:19: error: dereferencing pointer to incomplete type 'struct addrinfo'
+     ret->addr = ai->ai_addr;
+                   ^~
+Makefile:18: recipe for target 'tcp4.o' failed
+make[1]: *** [tcp4.o] Error 1
+make[1]: Leaving directory '/root/fichiers/autres/umlbox/mudem'
+Makefile:26: recipe for target 'mudem/umlbox-mudem' failed
+make: *** [mudem/umlbox-mudem] Error 2
+```
+
+You have to apply the following fix manually, then try to build again:
+```
+In the file mudem/tcp4.c, add the following line:   
+#define _POSIX_C_SOURCE 201112L /* for getaddrinfo */   
+
+after this existing line:
+#define _POSIX_SOURCE /* for strtok_r */
+```
+
 in order to test umlbox, run the following command in your machine. If it outputs "It works", then everything should be set up correctly.
 ```
 umlbox -B echo "It works"

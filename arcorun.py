@@ -34,7 +34,7 @@ def detect_language(msg, code):
 
     # Check argument
     try:
-        argument_provided = msg.split("```")[0].split(" ")[1]
+        argument_provided = msg.split("```")[0].split(" ")[1].strip()
         for language in lang_dict.keys():
             if argument_provided.lower() in lang_dict[language]["known_naming"]:
                 return lang_dict[language], code

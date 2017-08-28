@@ -1,12 +1,29 @@
 # Arcoex Bot
-
+![This is Arcoex!](http://i.imgur.com/oDU2O89.png)
 A Discord bot aimed at arbitrary code execution.
+
+## Features
+
+- Easy to expand. Adding new languages is extremely simple!
+- All languages work, even compiled ones. It doesn't matter how unknown is your language, this bot will be able to run it!
+- It reacts to everything you throw at him:
+  - There's a typo in your code or something goes wrong? The bot will give you the compiler output or the traceback.
+  - Did you make an infinite loop? The bot will take care of it, kill the process and give you the last lines of output.
+  - The language you're trying to use isn't supported? The bot will tell you.
+  - The output is too long for Discord? The bot will upload it to [hastebin.com](https://hastebin.com) and give you the link.
+- The sandboxed environment will protect the bot from malicious code! Say goodbye to fork bombs or trying to run `rm -rf --no-preserve-root /`.
 
 ## Get the bot
 
 If you want to use this bot in your server without running it manually, you can invite it to your server [clicking here.](https://discordapp.com/oauth2/authorize?client_id=350327901788569612&scope=bot&permissions=0)
 
 You can also check it out [by joining this Discord server.](https://discord.gg/yeZnCvc)
+
+## Usage
+
+Using the bot is really simple! If you want instructions, just mention the bot and he'll send you a PM with the full instructions. However, using this bot is as simple as mentioning him with the block of code you want to run, and mentioning the language the code is written in (either between the mention and the code block, or as a markdown language inside the code block, or even both if you feel like so!)
+
+For more detailed instructions and example, just mention the bot.
 
 ## Getting Started
 

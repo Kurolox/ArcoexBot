@@ -23,8 +23,9 @@ def detect_language(msg, code):
     
     lang_dict = {}
     for language in os.listdir(os.path.dirname(os.path.realpath(__file__)) + "/languages"):
-        with open(os.path.dirname(os.path.realpath(__file__)) + "/languages/" + language) as langjson:
-            lang_dict[language[:-5]] = json.load(langjson)
+        if language != "README.md": # That's not a .json file!
+            with open(os.path.dirname(os.path.realpath(__file__)) + "/languages/" + language) as langjson:
+                lang_dict[language[:-5]] = json.load(langjson)
     
     # Check markdown
     for language in lang_dict.keys():
@@ -122,7 +123,7 @@ def timeout(process):
     line_number = 0
     stderr = b""
     stdout = b""
-    while line_number < 5:
+    while line_number <= 5:
         stdout += process.stdout.readline()
         line_number += 1
     process.kill()

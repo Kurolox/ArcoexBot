@@ -40,12 +40,12 @@ You'll need to have [discord.py](https://github.com/Rapptz/discord.py) and [hast
 virtualenv .
 cd bin
 source activate
-pip install discord hastebin
+pip install discord.py && pip install hastebin.py
 ```
 
 Or you can install them as user.
 ```
-pip install --user discord hastebin
+pip install --user discord.py && pip install --user hastebin.py
 ```
 
 #### UMLBox

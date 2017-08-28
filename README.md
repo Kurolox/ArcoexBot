@@ -17,7 +17,7 @@ A Discord bot aimed at arbitrary code execution.
 
 If you want to use this bot in your server without running it manually, you can invite it to your server [clicking here.](https://discordapp.com/oauth2/authorize?client_id=350327901788569612&scope=bot&permissions=0)
 
-You can also check it out [by joining this Discord server.](https://discord.gg/yeZnCvc)
+You can also check it out [by joining this Discord server.](https://discord.gg/V6xK9Tx)
 
 ## Usage
 

@@ -129,7 +129,7 @@ First, create a file in `/etc/systemd/system`, called `arcoex-bot.service` (you 
 Description= Arcoex Bot for Discord
 
 [Service]
-RemainAfterExit=yes
+Type=forking
 ExecStart=/usr/bin/screen -S arcoex -dm python /path/to/arcoex.py
 ExecStop=/usr/bin/screen -S arcoex -X quit
 User=INSERTUSERHERE

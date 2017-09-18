@@ -1,0 +1,16 @@
+{
+    "language": "csharp",
+    "compiled": true,
+    "compiler_exec": "mcs",
+    "compiler_flags": [
+    ],
+    "exec": "mono",
+    "exec_flags": [
+    ],
+    "known_naming": [
+        "csharp",
+	"c#",
+	"cs"
+    ],
+    "file_extension": ".cs"
+}

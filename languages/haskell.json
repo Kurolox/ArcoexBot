@@ -1,0 +1,16 @@
+{
+    "language": "haskell",
+    "compiled": true,
+    "compiler_exec": "ghc",
+    "compiler_flags": [
+        "-o"
+    ],
+    "exec": "",
+    "exec_flags": [
+    ],
+    "known_naming": [
+        "haskell",
+        "hs"
+    ],
+    "file_extension": ".hs"
+}

@@ -1,0 +1,17 @@
+{
+    "language": "clojure",
+    "compiled": false,
+    "compiler_exec": "",
+    "compiler_flags": [
+    ],
+    "exec": "java",
+    "exec_flags": [
+	"-jar",
+	"/bot/code/clojure/clojure-1.8.0.jar"
+    ],
+    "known_naming": [
+        "clojure",
+        "clj"
+    ],
+    "file_extension": ".clj"
+}

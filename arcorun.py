@@ -86,7 +86,7 @@ def run_compiler(file_path, language, compiler_exec, extension, flags = ""):
     """runs the compiler and generates an executable."""
 
 
-    run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-fw", "/bot/code", "-f", "/", "-m", "512M", "-T", "65", compiler_exec] + flags + [file_path + "/executable", file_path + "/plaincode" + extension], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-fw", "/bot/code", "-m", "512M", "-T", "65", compiler_exec] + flags + [file_path + "/executable", file_path + "/plaincode" + extension], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     try:
         stdout, stderr = run_process.communicate(timeout=60)
         if stdout:

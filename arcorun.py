@@ -86,7 +86,7 @@ def run_compiler(file_path, language, compiler_exec, extension, flags = ""):
     """runs the compiler and generates an executable."""
 
 
-    run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-fw", "/bot/code", "-m", "512M", "-T", "65", compiler_exec] + flags + [file_path + "/executable", file_path + "/plaincode" + extension], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-fw", "/bot/code", "-f", "/", "-m", "512M", "-T", "65", compiler_exec] + flags + [file_path + "/executable", file_path + "/plaincode" + extension], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     try:
         stdout, stderr = run_process.communicate(timeout=60)
         if stdout:
@@ -106,9 +106,9 @@ def execute_code(file_path, run_command, flags):
     
     timeout_flag = False
     if run_command: # For non-compiled languages
-        run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-f", "/bot/code", "-m", "512M", "-T", "10", run_command] + flags + [file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-f", "/bot/code", "-m", "512M", "-T", "10", "env", "LANG=en_US.UTF-8", run_command] + flags + [file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     else:
-        run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-f", "/bot/code", "-m", "512M", "-T", "10", file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        run_process = subprocess.Popen(["umlbox", "--cwd", "/arcoex", "-B", "-fw", "/arcoex", "-f", "/bot/code", "-m", "512M", "-T", "10", "env", "LANG=en_US.UTF-8", file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     try:
         stdout, stderr = run_process.communicate(timeout=8)
     except subprocess.TimeoutExpired:

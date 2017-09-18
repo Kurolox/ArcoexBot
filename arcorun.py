@@ -148,7 +148,6 @@ async def send_instructions(msg, client):
     "\n\nMessage Kurolox if you want to add more, or check out the Github page if you want to contribute: https://github.com/Kurolox/ArcoexBot")
 
     await client.send_message(msg.author, instructions)
-    print(msg.server)
     if msg.server != None: # If the bot wasn't mentioned in a private chat
         await client.send_message(msg.channel, "I've sent you the bot instructions via PM.")
 

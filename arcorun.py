@@ -10,6 +10,8 @@ def look_for_code(msg):
     
     try:
         code = msg.split("```")[1] # Looks for anything wrapped in a ``` block
+        while code[0] == "`": # Gets rid of any extra `
+            code = code[1:]
         return code.split("\n")
     except IndexError: # There's no ``` in the message content
         return ""
@@ -152,24 +154,26 @@ async def send_instructions(msg, client):
 async def bot_reply(msg, client, signal, code_output="", compiler_output="", language=""):
     """Makes the bot reply depending on the signal."""
     
-    if signal == 0: # There was no code detected on the message
-        await client.send_message(msg.channel, "I'm sorry, but I'm not seeing any code to run.")
-    elif signal == 1: # There was only a mention of the bot
-        await send_instructions(msg, client)
-    elif signal == 2: # detect_language() couldn't detect the language
-        await client.send_message(msg.channel, "I'm sorry, but you didn't specify the language of the code or it isn't supported yet.")
-    elif signal == 3: # The compiler ran into issues
-        await client.send_message(msg.channel, "I've encountered the following error when compiling your %s code. \n```\n%s```" % (language, compiler_output))
-    elif signal == 4: # The process timeouted
-        await client.send_message(msg.channel, "I'm sorry, but your request took too long. Here are the last 5 lines from the output.\n```\n%s```" % code_output)
-    elif signal == 5: # There were errors when running the code
-        await client.send_message(msg.channel, "I've encountered the following error when running your %s code. \n```\n%s```" % (language, code_output))
-    elif signal == 6: # Everything went well
-        try:
+    try:
+        if signal == 0: # There was no code detected on the message
+            await client.send_message(msg.channel, "I'm sorry, but I'm not seeing any code to run.")
+        elif signal == 1: # There was only a mention of the bot
+            await send_instructions(msg, client)
+        elif signal == 2: # detect_language() couldn't detect the language
+            await client.send_message(msg.channel, "I'm sorry, but you didn't specify the language of the code or it isn't supported yet.")
+        elif signal == 3: # The compiler ran into issues
+            await client.send_message(msg.channel, "I've encountered the following error when compiling your %s code. \n```\n%s```" % (language, compiler_output))
+        elif signal == 4: # The process timeouted
+            await client.send_message(msg.channel, "I'm sorry, but your request took too long. Here are the last 5 lines from the output.\n```\n%s```" % code_output)
+        elif signal == 5: # There were errors when running the code
+            await client.send_message(msg.channel, "I've encountered the following error when running your %s code. \n```\n%s```" % (language, code_output))
+        elif signal == 6: # Everything went well
             await client.send_message(msg.channel, "Here's the output of your %s code. \n```\n%s```" % (language, code_output))
-        except discord.errors.HTTPException: # Unless the message was +2000 characters
+    except discord.errors.HTTPException: # Unless the message was +2000 characters
+        try:
             await client.send_message(msg.channel, "I'm sorry, but the output is too long for Discord. You can check the output of your %s code here. %s" % (language, hastebin.post(code_output)))
-
+        except KeyError: # Not even hastebin wants the output
+            await client.send_message(msg.channel, "I'm sorry, but the output is too long for Discord. Hell, it's even too long for hastebin. Though luck, I guess. *¯\_(ツ)_/¯*")
 async def code(msg, client):
     """Grab the code block from a message, run it and return the output."""
     

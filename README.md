@@ -1,4 +1,4 @@
-#WARNING! This branch does NOT have any sandboxing for the code the bot will run. It may allow people to break your system or steal personal information. Please don't use this one unless you know what you're doing. Do it at your own risk.
+# WARNING! This branch does NOT have any sandboxing for the code the bot will run. It may allow people to break your system or steal personal information. Please don't use this one unless you know what you're doing. Do it at your own risk.
 
 
 # Arcoex Bot

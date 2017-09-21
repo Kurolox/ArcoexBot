@@ -1,3 +1,6 @@
+#WARNING! This branch does NOT have any sandboxing for the code the bot will run. It may allow people to break your system or steal personal information. Please don't use this one unless you know what you're doing. Do it at your own risk.
+
+
 # Arcoex Bot
 ![This is Arcoex!](http://i.imgur.com/oDU2O89.png)
 A Discord bot aimed at arbitrary code execution.

@@ -87,6 +87,7 @@ def run_compiler(file_path, language, compiler_exec, extension, flags = ""):
 
 
     run_process = subprocess.Popen([compiler_exec] + flags + [file_path + "/executable", file_path + "/plaincode" + extension], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    try:
         stdout, stderr = run_process.communicate(timeout=60)
         if stdout:
             return "", stdout.decode("utf-8")

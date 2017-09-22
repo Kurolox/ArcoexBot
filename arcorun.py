@@ -65,8 +65,10 @@ def create_file(language, extension, code, compiled):
         if not os.path.exists(file_compiled):
             os.mkdir(file_compiled)
 
-        try:
-            os.remove(file_compiled + "/plaincode" + extension)
+        try: # if binary and code file exists already, delete them.
+            filelist = [f for f in os.listdir(file_compiled)]
+            for f in filelist:
+                os.remove(file_compiled + "/" + f)
         except FileNotFoundError:
             pass
         with open(file_compiled + "/plaincode" + extension, "a") as file: # Open the file to write on

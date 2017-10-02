@@ -14,7 +14,7 @@ This is the list of directly supported languages in the bot, the names it can be
 - Javascript: It uses `nodejs` to run the code. You can use this language by calling it `javascript` or `js`.
 - Guile: It uses `guile` to run the code. You can use this language by calling it `guile`.
 - Racket: It uses `racket` to run the code. You can use this language by calling it `racket` or `rkt`.
-- R: It uses `rscript` to run the code.You can use this language by calling it `r`.
+- R: It uses `rscript` to run the code. You can use this language by calling it `r`.
 ## Adding a language
 
 In order to add a language to the bot, you have to create a filed calle `LANGNAME.json` inside this folder, replacing `LANGNAME` by the name of the language you want to add. Then, edit the .json file with your text editor of choice, and add the following template, replacing the vaules accordingly. There's an explanation for each value at the bottom.

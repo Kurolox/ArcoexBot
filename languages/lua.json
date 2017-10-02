@@ -1,0 +1,14 @@
+{
+    "language": "lua",
+    "compiled": false,
+    "compiler_exec": "",
+    "compiler_flags": [
+    ],
+    "exec": "lua",
+    "exec_flags": [
+    ],
+    "known_naming": [
+        "lua"
+    ],
+    "file_extension": ".lua"
+}

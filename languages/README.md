@@ -11,6 +11,7 @@ This is the list of directly supported languages in the bot, the names it can be
 - Rust: It uses `rustc` to compile the code. You can use this language by calling it `rust` or `rs`.
 - Bash: It uses `bash` to run the code. You can use this language by calling it `bash` or `sh`.
 - Python: It uses `python` to run the code. You can use this language by calling it `python`, `python3`, `py` or `py3`.
+- Perl: it uses `perl` to run the code. You can use this language by calling it `perl`, or `perl5`.
 - Javascript: It uses `nodejs` to run the code. You can use this language by calling it `javascript` or `js`.
 - Go: It uses `go run` to run the code. You can use this language by calling it `go`.
 - Guile: It uses `guile` to run the code. You can use this language by calling it `guile`.

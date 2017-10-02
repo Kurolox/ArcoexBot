@@ -1,0 +1,15 @@
+{
+  "language": "perl",
+  "compiled": false,
+  "compiler_exec": "",
+  "compiler_flags": [
+  ],
+  "exec": "perl",
+  "exec_flags": [
+  ],
+  "known_naming": [
+    "perl",
+    "perl5"
+  ],
+  "file_extension": ".pl"
+}

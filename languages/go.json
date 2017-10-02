@@ -1,0 +1,16 @@
+{
+    "language": "go",
+    "compiled": false,
+    "compiler_exec": "",
+    "compiler_flags": [
+    ],
+    "exec": "go",
+    "exec_flags": [
+        "run"
+    ],
+    "known_naming": [
+        "go",
+        "golang"
+    ],
+    "file_extension": ".go"
+}

@@ -1,0 +1,14 @@
+{
+    "language": "r",
+    "compiled": false,
+    "compiler_exec": "",
+    "compiler_flags": [
+    ],
+    "exec": "Rscript",
+    "exec_flags": [
+    ],
+    "known_naming": [
+        "r"
+    ],
+    "file_extension": ".r"
+}

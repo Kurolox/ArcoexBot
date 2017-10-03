@@ -17,6 +17,8 @@ This is the list of directly supported languages in the bot, the names it can be
 - Racket: It uses `racket` to run the code. You can use this language by calling it `racket` or `rkt`.
 - R: It uses `rscript` to run the code. You can use this language by calling it `r`.
 - Dart: It uses `dart` to run the code. You can use this language by calling it `dart`.
+- Ruby: It uses `ruby` to run the code. You can use this language by calling it `ruby`or `rb`.
+
 ## Adding a language
 
 In order to add a language to the bot, you have to create a filed calle `LANGNAME.json` inside this folder, replacing `LANGNAME` by the name of the language you want to add. Then, edit the .json file with your text editor of choice, and add the following template, replacing the vaules accordingly. There's an explanation for each value at the bottom.

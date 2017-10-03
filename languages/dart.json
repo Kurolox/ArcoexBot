@@ -1,0 +1,14 @@
+{
+  "language": "dart",
+  "compiled": false,
+  "compiler_exec": "",
+  "compiler_flags": [
+  ],
+  "exec": "dart",
+  "exec_flags": [
+  ],
+  "known_naming": [
+    "dart"
+  ],
+  "file_extension": ".dart"
+}

@@ -16,6 +16,7 @@ This is the list of directly supported languages in the bot, the names it can be
 - Guile: It uses `guile` to run the code. You can use this language by calling it `guile`.
 - Racket: It uses `racket` to run the code. You can use this language by calling it `racket` or `rkt`.
 - R: It uses `rscript` to run the code. You can use this language by calling it `r`.
+- Dart: It uses `dart` to run the code. You can use this language by calling it `dart`.
 - Ruby: It uses `ruby` to run the code. You can use this language by calling it `ruby`or `rb`.
 
 ## Adding a language

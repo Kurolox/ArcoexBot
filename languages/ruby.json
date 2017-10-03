@@ -1,0 +1,15 @@
+{
+    "language": "ruby",
+    "compiled": false,
+    "compiler_exec": "",
+    "compiler_flags": [
+    ],
+    "exec": "ruby",
+    "exec_flags": [
+    ],
+    "known_naming": [
+        "ruby",
+        "rb"
+    ],
+    "file_extension": ".rb"
+}

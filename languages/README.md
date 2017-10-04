@@ -11,12 +11,16 @@ This is the list of directly supported languages in the bot, the names it can be
 - Rust: It uses `rustc` to compile the code. You can use this language by calling it `rust` or `rs`.
 - Bash: It uses `bash` to run the code. You can use this language by calling it `bash` or `sh`.
 - Python: It uses `python` to run the code. You can use this language by calling it `python`, `python3`, `py` or `py3`.
+- Perl: it uses `perl` to run the code. You can use this language by calling it `perl`, or `perl5`.
 - Javascript: It uses `nodejs` to run the code. You can use this language by calling it `javascript` or `js`.
 - Go: It uses `go run` to run the code. You can use this language by calling it `go`.
 - Guile: It uses `guile` to run the code. You can use this language by calling it `guile`.
 - Racket: It uses `racket` to run the code. You can use this language by calling it `racket` or `rkt`.
 - R: It uses `rscript` to run the code. You can use this language by calling it `r`.
 - Lua: It uses `lua` to run the code. You can use this language by calling it `lua`.
+- Dart: It uses `dart` to run the code. You can use this language by calling it `dart`.
+- Ruby: It uses `ruby` to run the code. You can use this language by calling it `ruby`or `rb`.
+
 ## Adding a language
 
 In order to add a language to the bot, you have to create a filed calle `LANGNAME.json` inside this folder, replacing `LANGNAME` by the name of the language you want to add. Then, edit the .json file with your text editor of choice, and add the following template, replacing the vaules accordingly. There's an explanation for each value at the bottom.

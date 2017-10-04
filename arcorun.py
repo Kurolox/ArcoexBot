@@ -143,8 +143,8 @@ async def send_instructions(msg, client):
             supported_languages.append(language_raw[:-5])
 
     instructions = ("Arcoex stands for **ar**bitrary **co**de **ex**ecution, and that's what this bot does! There are two ways to use me (you can use both at the same time if you want to):"
-    "\n\n**1.** Mention me among with the language of the code you want to run, and then add the code warped in between \`\`\`, making a code block. (This method overrides the next one if"
-    "both are specified at the same time) Here's an example:\n\n<@" + client.user.id + "> bash ```\n echo(\"I'm using the first method!\")```\n**2.** Mention me among your code warped in between"
+    "\n\n**1.** Mention me among with the language of the code you want to run, and then add the code wrapped in between \`\`\`, making a code block. (This method overrides the next one if"
+    "both are specified at the same time) Here's an example:\n\n<@" + client.user.id + "> bash ```\n echo(\"I'm using the first method!\")```\n**2.** Mention me among your code wrapped in between"
     "\`\`\`, and specify the language of your code right after the first set of \`\`\` (This method will add syntax markdown to your code). Here's an example:\n\n<@350327901788569612> ```bash"
     "\n echo(\"I'm using the second method!\")```\nSo far, the supported languages are " + ", ".join(supported_languages[:-1]) + " and " + supported_languages[-1] + "."
     "\n\nMessage Kurolox if you want to add more, or check out the Github page if you want to contribute: https://github.com/Kurolox/ArcoexBot")

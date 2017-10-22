@@ -1,5 +1,5 @@
 # Arcoex Bot
-![This is Arcoex!](http://i.imgur.com/oDU2O89.png)
+![This is Arcoex!](https://i.imgur.com/5Md3byS.png)
 A Discord bot aimed at arbitrary code execution.
 
 ## Features

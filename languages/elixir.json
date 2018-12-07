@@ -1,0 +1,15 @@
+{
+    "language": "elixir",
+    "compiled": false,
+    "compiler_exec": "",
+    "compiler_flags": [
+    ],
+    "exec": "elixir",
+    "exec_flags": [
+    ],
+    "known_naming": [
+        "elixir",
+        "exs"
+    ],
+    "file_extension": ".exs"
+}

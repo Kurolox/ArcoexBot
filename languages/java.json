@@ -1,0 +1,14 @@
+{
+    "language": "java",
+    "compiled": false,
+    "compiler_exec": "",
+    "compiler_flags": [
+    ],
+    "exec": "jshell",
+    "exec_flags": [
+    ],
+    "known_naming": [
+        "java"
+    ],
+    "file_extension": ".java"
+}

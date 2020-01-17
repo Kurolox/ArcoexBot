@@ -1,0 +1,14 @@
+{
+    "language": "ocaml",
+    "compiled": false,
+    "compiler_exec": "",
+    "compiler_flags": [
+    ],
+    "exec": "ocaml",
+    "exec_flags": [
+    ],
+    "known_naming": [
+        "ocaml"
+    ],
+    "file_extension": ".ml"
+}
